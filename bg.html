@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <title>Document</title>
+  <script src="./js/rem.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Heiti SC", DroidSansFallback, "Microsoft YaHei";
+    }
+    p {
+      margin: 0;
+      padding: 0;
+      margin-top: .32rem;
+      color: #fff;
+    }
+    body {
+      background-image: url('./images/bg.jpg');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+    .logo {
+      display: flex;
+      justify-content: space-between;
+    }
+    .logo img {
+      width: 2.133333rem;
+      height: 2.133333rem;
+    }
+    .content {
+      display: block;
+      margin: .8rem auto;
+      width: 5.333333rem;
+      height: 3.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="box">
+    <div class="logo">
+      <img src="./images/1.jpg"/>
+      <img src="./images/2.jpg"/>
+    </div>
+    <img class="content" src="./images/3.jpg"/>
+  </div>
+</body>
+<script>
+var box = document.getElementById('box')
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < 16; i++) {
+  var p = document.createElement('p');
+  p.innerHTML = '我是内容' + i;
+  fragment.appendChild(p);
+}
+box.appendChild(fragment)
+</script>
+</html>
