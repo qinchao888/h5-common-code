@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/1.0.1/vconsole.min.js"></script>
+  <script>
+    new VConsole()
+  </script>
+</head>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+p {
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+  padding: 0;
+}
+.pos {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  /* display: none; */
+}
+.header {
+  height: 100px;
+}
+.container {
+  position: relative;
+  height: 400px;
+  background: skyblue;
+  overflow-y: auto;
+}
+</style>
+<body>
+  <div id="app">
+    <!-- <div class="header">this is header</div> -->
+    <!-- <div class="container" ref="wrap"> -->
+      <p v-for="item in list">{{item}}</p>
+      <div class="pos" ref="pos">这里是底部</div>
+    <!-- </div> -->
+  </div>
+</body>
+<!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script> -->
+<script type="text/javascript">
+//滚动加载事件
+var lazyScroll = function (opts) {
+  this.callback = opts.callback; //回调函数
+  this.distance = opts.distance || 0; //距离
+  this.elem = opts.elem; // 标记元素
+  this.content = opts.content || window;
+}
+lazyScroll.prototype = {
+  init: function () {
+    var self = this;
+    this.content.onscroll = function () {
+      var elTop = self.elem.offsetTop // 标记元素距离顶部的高度
+      if (this === window) {
+        var height = this.innerHeight // 窗口的高度
+        // 滚动条滚动的高度
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        if (elTop - scrollTop - height <= self.distance) {
+          self.callback()
+        }
+      } else {
+        var height = this.offsetHeight // 元素的高度
+        var scrollTop = this.scrollTop
+        if (elTop - scrollTop - height <= self.distance) {
+          self.callback()
+        }
+      }
+    }
+  }
+}
+new Vue({
+  el: '#app',
+  data: {
+    list: []
+  },
+  mounted () {
+    var self = this
+    var _lazyScroll = new lazyScroll({
+      distance: -30,
+      // content: self.$refs.wrap,
+      elem: self.$refs.pos,
+      callback: function() {
+        self.getData()
+        console.log('触发分页加载')
+      }
+    });
+    _lazyScroll.init()
+    this.getData()
+  },
+  methods: {
+    getData () {
+      this.list = this.list.concat(Array.from({length: 20}, (v, i) => String(i).padEnd(8, i)))
+    }
+  }
+})
+</script>
+
+</html>
